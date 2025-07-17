@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+Khi nhập key thành công bạn sẽ không cần nhập lại trong 24h( nếu vẫn hiện menu nhập key chỉ cần ấn nút xác nhận key lần nx sẽ vào được cloud)
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Key Authentication</title>
+    </title> Nhập Key để vào cloud</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,83 +11,84 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
             background-color: #f0f0f0;
+            margin: 0;
         }
         .container {
-            background-color: white;
+            text-align: center;
             padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .container h2 {
-            margin-bottom: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
         }
         input[type="text"] {
-            width: 100%;
-            padding: 8px;
+            padding: 10px;
+            font-size: 16px;
             border-radius: 4px;
             border: 1px solid #ddd;
+            margin-bottom: 10px;
         }
         button {
-            width: 100%;
-            padding: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
             background-color: #4CAF50;
             color: white;
-            border: none;
-            border-radius: 4px;
             cursor: pointer;
+            border-radius: 4px;
         }
         button:hover {
             background-color: #45a049;
-        }
-        .error {
-            color: red;
-            display: none;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Vui Lòng Nhập Key Để Vào Cloud</h2>
-    <div class="form-group">
-        <input type="text" id="keyInput" placeholder="Nhập key ở đây" />
-        <div class="error" id="errorMessage">Key không hợp lệ hoặc đã hết hạn. Vui lòng thử lại sau 24 giờ.</div>
-    </div>
-    <button id="submitBtn">Xác nhận</button>
+    <h2>Vui lòng nhập key để vào cloud</h2>
+    <input type="text" id="keyInput" placeholder="Nhập key ở đây" />
+    <br>
+    <button onclick="checkKey()">Xác Nhận</button>
+    <p id="error" style="color: red; display: none;">Key Sai Rồi Níi!</p>
 </div>
 
 <script>
-    const validKey = "Key_869";  // Thay thế bằng key thực tế của bạn
-    const redirectUrl = "https://sites.google.com/view/cloudgamefree";
-    
-    // Lấy thời gian hiện tại từ localStorage
-    const lastAccessTime = localStorage.getItem("lastAccessTime");
-    const currentTime = new Date().getTime();
-    
-    if (lastAccessTime && (currentTime - lastAccessTime < 24 * 60 * 60 * 1000)) {
-        // Nếu đã nhập key trong vòng 24 giờ
-        window.location.href = redirectUrl;
-    }
+    const correctKey = "Key_869"; // Đổi key ở đây
+    const validKeyStorageKey = "validKey";
+    const expirationTimeKey = "expirationTime";
 
-    document.getElementById('submitBtn').addEventListener('click', () => {
-        const enteredKey = document.getElementById('keyInput').value;
-        const errorMessage = document.getElementById('errorMessage');
-        
-        // Kiểm tra key
-        if (enteredKey === validKey) {
-            // Lưu thời gian truy cập thành công vào localStorage
-            localStorage.setItem("lastAccessTime", currentTime.toString());
-            window.location.href = redirectUrl;
+    function checkKey() {
+        const enteredKey = document.getElementById("keyInput").value.trim();
+        const errorMessage = document.getElementById("error");
+
+        // Lấy thời gian hết hạn của key từ localStorage
+        const expirationTime = localStorage.getItem(expirationTimeKey);
+        const currentTime = new Date().getTime();
+
+        // Kiểm tra xem key có hợp lệ hay không và nếu hết hạn thì yêu cầu nhập lại
+        if (enteredKey === correctKey && (!expirationTime || currentTime > expirationTime)) {
+            // Lưu trạng thái key hợp lệ và thời gian hết hạn
+            localStorage.setItem(validKeyStorageKey, "true");
+            localStorage.setItem(expirationTimeKey, currentTime + 24 * 60 * 60 * 1000); // 24 giờ = 24*60*60*1000
+
+            // Chuyển hướng đến trang đích
+            window.location.href = "https://sites.google.com/view/cloudgamefree";
         } else {
-            // Hiển thị thông báo lỗi nếu key không hợp lệ
+            // Hiển thị thông báo lỗi nếu key không hợp lệ hoặc hết hạn
             errorMessage.style.display = "block";
         }
-    });
+    }
+
+    // Kiểm tra nếu key hợp lệ từ trước
+    if (localStorage.getItem(validKeyStorageKey)) {
+        const expirationTime = localStorage.getItem(expirationTimeKey);
+        const currentTime = new Date().getTime();
+
+        if (currentTime < expirationTime) {
+            // Nếu key vẫn còn hiệu lực, tự động chuyển đến trang
+            window.location.href = "https://sites.google.com/view/cloudgamefree";
+        }
+    }
 </script>
 
 </body>
