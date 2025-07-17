@@ -1,4 +1,4 @@
-Khi nhập đúng key sẽ không cần nhập lại key trong 24h
+Khi nhập đúng key sẽ không cần nhập lại key trong 24h(nếu chx cs key thì ấn nút lấy key thì sẽ hiện một đường links bạn chỉ cần sao chép link và thoát ra dán vào Chrome hoặc bất cứ trình duyệt nào cx đc để get key).
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -89,7 +89,7 @@ Khi nhập đúng key sẽ không cần nhập lại key trong 24h
 <div class="container">
     <!-- Phần Nhập Key -->
     <div class="section">
-        <h1>Nhập Key</h1>
+        <h1>Nhập Key Bên Dưới</h1>
         <input type="text" id="keyInput" placeholder="Nhập key của bạn...">
         <button onclick="checkKey()">Kiểm Tra Key</button>
         <div id="message"></div>
@@ -97,7 +97,7 @@ Khi nhập đúng key sẽ không cần nhập lại key trong 24h
 
     <!-- Phần Nhận Key -->
     <div class="section">
-        <h1>Nhận Key</h1>
+        <h1>Lấy Key</h1>
         <button onclick="generateKey()">Lấy Key</button>
         <div id="generatedKey">
             <p>Link Key: <a href="https://link4m.com/4CEYEBa" target="_blank">https://link4m.com/4CEYEBa</a></p>
