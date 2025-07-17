@@ -1,257 +1,102 @@
-Khi nhập đúng key bạn sẽ đc vào cloud trong 24h
-
+<!DOCTYPE html>
 <html lang="vi">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Trang Nhập Key</title>
-
+    <title>Nhập Key và Lấy Link</title>
     <style>
-
         body {
-
-            font-family: 'Arial', sans-serif;
-
-            background-color: #f2f2f2;
-
-            margin: 0;
-
-            padding: 0;
-
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
-
-            height: 100vh;
-
-        }
-
-
-
-        .container {
-
-            background-color: white;
-
-            padding: 20px;
-
-            border-radius: 12px;
-
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-            width: 100%;
-
-            max-width: 400px;
-
+            font-family: Arial, sans-serif;
             text-align: center;
-
+            padding: 50px;
         }
-
-
-
-        h2 {
-
-            color: #333;
-
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        .input-group {
             margin-bottom: 20px;
-
         }
-
-
-
         input[type="text"] {
-
-            width: 100%;
-
-            padding: 12px;
-
+            padding: 10px;
+            width: 200px;
+            margin-right: 10px;
             font-size: 16px;
-
-            border-radius: 6px;
-
-            border: 1px solid #ddd;
-
-            margin-bottom: 20px;
-
-            box-sizing: border-box;
-
         }
-
-
-
         button {
-
-            width: 100%;
-
-            padding: 14px;
-
+            padding: 10px 20px;
             font-size: 16px;
-
-            border: none;
-
-            background-color: #4CAF50;
-
-            color: white;
-
-            border-radius: 6px;
-
             cursor: pointer;
-
-            transition: background-color 0.3s;
-
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
         }
-
-
-
         button:hover {
-
             background-color: #45a049;
-
         }
-
-
-
-        .error-message {
-
-            color: red;
-
+        #link {
             display: none;
-
-            font-size: 14px;
-
-            margin-top: 15px;
-
+            margin-top: 20px;
         }
-
-
-
-        /* Responsive Design */
-
-        @media (max-width: 600px) {
-
-            .container {
-
-                padding: 15px;
-
-            }
-
-
-
-            button {
-
-                padding: 12px;
-
-            }
-
+        #message {
+            color: red;
+            margin-top: 10px;
         }
-
     </style>
-
 </head>
-
 <body>
 
-
-
 <div class="container">
-
-    <h2>Nhập key bên dưới</h2>
-
-    <input type="text" id="keyInput" placeholder="Nhập key ở đây" />
-
-    <button onclick="checkKey()">Xác Nhận</button>
-
-    <p id="errorMessage" class="error-message">Key không hợp lệ hoặc đã hết hạn!</p>
-
+    <h1>Nhập Key</h1>
+    <div class="input-group">
+        <input type="text" id="key" placeholder="Nhập key của bạn...">
+        <button onclick="checkKey()">Kiểm Tra Key</button>
+    </div>
+    <div id="link">
+        <p>Link để sao chép: <a href="https://link4m.com/4CEYEBa" target="_blank" id="generatedLink">https://link4m.com/4CEYEBa</a></p>
+    </div>
+    <div id="message"></div>
 </div>
 
-
-
 <script>
-
-    const correctKey = "Key_129086"; // Đổi key ở đây
-
-    const validKeyStorageKey = "validKey";
-
-    const expirationTimeKey = "expirationTime";
-
-
-
-    // Hàm kiểm tra key
+    const correctKey = 'your-correct-key'Key_1234;  // Thay đổi key đúng ở đây
+    const redirectUrl = 'https://sites.google.com/view/cloudgamefree';
+    const keyStorage = 'userKey';
+    const expirationTime = 24 * 60 * 60 * 1000;  // 24 giờ tính bằng milliseconds
 
     function checkKey() {
+        const userKey = document.getElementById('key').value;
+        const messageElement = document.getElementById('message');
+        const linkElement = document.getElementById('link');
 
-        const enteredKey = document.getElementById("keyInput").value.trim();
+        if (userKey === correctKey) {
+            messageElement.textContent = '';
+            linkElement.style.display = 'none';
 
-        const errorMessage = document.getElementById("errorMessage");
+            // Kiểm tra xem key có tồn tại trong storage và có hết hạn chưa
+            const savedKey = localStorage.getItem(keyStorage);
+            const savedTime = localStorage.getItem('keyTimestamp');
 
-
-
-        // Lấy thời gian hết hạn của key từ localStorage
-
-        const expirationTime = localStorage.getItem(expirationTimeKey);
-
-        const currentTime = new Date().getTime();
-
-
-
-        // Kiểm tra xem key có hợp lệ và chưa hết hạn
-
-        if (enteredKey === correctKey && (!expirationTime || currentTime > expirationTime)) {
-
-            // Lưu trạng thái key hợp lệ và thời gian hết hạn
-
-            localStorage.setItem(validKeyStorageKey, "true");
-
-            localStorage.setItem(expirationTimeKey, currentTime + 24 * 60 * 60 * 1000); // 24 giờ = 24*60*60*1000
-
-
-
-            // Chuyển hướng đến trang đích
-
-            window.location.href = "https://sites.google.com/view/cloudgamefree";
-
+            if (savedKey && Date.now() - savedTime < expirationTime) {
+                // Nếu key còn hạn, chuyển hướng luôn
+                window.location.href = redirectUrl;
+            } else {
+                // Nếu key hết hạn hoặc chưa lưu, lưu lại và chuyển hướng
+                localStorage.setItem(keyStorage, correctKey);
+                localStorage.setItem('keyTimestamp', Date.now());
+                window.location.href = redirectUrl;
+            }
         } else {
-
-            // Hiển thị thông báo lỗi nếu key không hợp lệ hoặc hết hạn
-
-            errorMessage.style.display = "block";
-
+            messageElement.textContent = 'Key không đúng! Hãy thử lại.';
+            linkElement.style.display = 'block';
         }
-
     }
-
-
-
-    // Kiểm tra nếu key hợp lệ từ trước
-
-    if (localStorage.getItem(validKeyStorageKey)) {
-
-        const expirationTime = localStorage.getItem(expirationTimeKey);
-
-        const currentTime = new Date().getTime();
-
-
-
-        if (currentTime < expirationTime) {
-
-            // Nếu key vẫn còn hiệu lực, tự động chuyển đến trang
-
-            window.location.href = "https://sites.google.com/view/cloudgamefree";
-
-        }
-
-    }
-
 </script>
 
-
-
 </body>
-
 </html>
