@@ -1,101 +1,147 @@
-<!DOCTYPE html>
+Khi nhập đúng key sẽ không cần nhập lại key trong 24h
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nhập Key và Lấy Link</title>
+    <title>Nhập và Nhận Key</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
+        /* Reset default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f1f1f1;
+            text-align: center;
+            padding: 20px;
+        }
+
         .container {
             max-width: 500px;
-            margin: auto;
+            margin: 0 auto;
+            background-color: #fff;
             padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-        .input-group {
+
+        h1 {
+            font-size: 24px;
             margin-bottom: 20px;
+            color: #333;
         }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
         input[type="text"] {
+            width: 80%;
             padding: 10px;
-            width: 200px;
-            margin-right: 10px;
             font-size: 16px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
+
         button {
-            padding: 10px 20px;
+            padding: 12px 20px;
             font-size: 16px;
-            cursor: pointer;
-            background-color: #4CAF50;
             color: white;
+            background-color: #4CAF50;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 80%;
         }
+
         button:hover {
             background-color: #45a049;
         }
-        #link {
-            display: none;
+
+        #generatedKey {
             margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+            display: none;
         }
+
         #message {
+            margin-top: 20px;
             color: red;
-            margin-top: 10px;
+        }
+
+        @media (max-width: 600px) {
+            input[type="text"] {
+                width: 100%;
+            }
+            button {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Nhập Key</h1>
-    <div class="input-group">
-        <input type="text" id="key" placeholder="Nhập key của bạn...">
+    <!-- Phần Nhập Key -->
+    <div class="section">
+        <h1>Nhập Key</h1>
+        <input type="text" id="keyInput" placeholder="Nhập key của bạn...">
         <button onclick="checkKey()">Kiểm Tra Key</button>
+        <div id="message"></div>
     </div>
-    <div id="link">
-        <p>Link để sao chép: <a href="https://link4m.com/4CEYEBa" target="_blank" id="generatedLink">https://link4m.com/4CEYEBa</a></p>
+
+    <!-- Phần Nhận Key -->
+    <div class="section">
+        <h1>Nhận Key</h1>
+        <button onclick="generateKey()">Lấy Key</button>
+        <div id="generatedKey">
+            <p>Link Key: <a href="https://link4m.com/4CEYEBa" target="_blank">https://link4m.com/4CEYEBa</a></p>
+        </div>
     </div>
-    <div id="message"></div>
 </div>
 
 <script>
-    const correctKey = 'your-correct-key'Key_1234;  // Thay đổi key đúng ở đây
+    const correctKey = 'Key_129087';  // Thay đổi key đúng ở đây
     const redirectUrl = 'https://sites.google.com/view/cloudgamefree';
     const keyStorage = 'userKey';
     const expirationTime = 24 * 60 * 60 * 1000;  // 24 giờ tính bằng milliseconds
 
+    // Kiểm tra key nhập vào
     function checkKey() {
-        const userKey = document.getElementById('key').value;
+        const userKey = document.getElementById('keyInput').value;
         const messageElement = document.getElementById('message');
-        const linkElement = document.getElementById('link');
 
         if (userKey === correctKey) {
             messageElement.textContent = '';
-            linkElement.style.display = 'none';
-
-            // Kiểm tra xem key có tồn tại trong storage và có hết hạn chưa
-            const savedKey = localStorage.getItem(keyStorage);
-            const savedTime = localStorage.getItem('keyTimestamp');
-
-            if (savedKey && Date.now() - savedTime < expirationTime) {
-                // Nếu key còn hạn, chuyển hướng luôn
-                window.location.href = redirectUrl;
-            } else {
-                // Nếu key hết hạn hoặc chưa lưu, lưu lại và chuyển hướng
-                localStorage.setItem(keyStorage, correctKey);
-                localStorage.setItem('keyTimestamp', Date.now());
-                window.location.href = redirectUrl;
-            }
+            localStorage.setItem(keyStorage, correctKey);
+            localStorage.setItem('keyTimestamp', Date.now()); // Lưu thời gian khi nhập key đúng
+            window.location.href = redirectUrl;  // Chuyển hướng nếu key đúng
         } else {
             messageElement.textContent = 'Key không đúng! Hãy thử lại.';
-            linkElement.style.display = 'block';
         }
     }
+
+    // Lấy key
+    function generateKey() {
+        const generatedKey = document.getElementById('generatedKey');
+        generatedKey.style.display = 'block';  // Hiển thị link key
+    }
+
+    // Kiểm tra xem key có còn hợp lệ trong localStorage hay không
+    window.onload = function() {
+        const savedKey = localStorage.getItem(keyStorage);
+        const savedTime = localStorage.getItem('keyTimestamp');
+
+        if (savedKey && Date.now() - savedTime < expirationTime) {
+            // Nếu key còn hạn, chuyển hướng luôn
+            window.location.href = redirectUrl;
+        }
+    };
 </script>
 
 </body>
