@@ -1,55 +1,88 @@
-Khi nhập key thành công bạn sẽ không cần nhập lại trong 24h( nếu vẫn hiện menu nhập key chỉ cần ấn nút xác nhận key lần nx sẽ vào được cloud)
+Khi nhập đúng key bạn sẽ không cần nhập trong vòng 24h
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </title> Nhập Key để vào cloud</title>
+    <title>Trang Nhập Key</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f0f0f0;
-            margin: 0;
         }
+
         .container {
-            text-align: center;
-            padding: 20px;
             background-color: white;
+            padding: 20px;
+            border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
         }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
         input[type="text"] {
-            padding: 10px;
+            width: 100%;
+            padding: 12px;
             font-size: 16px;
-            border-radius: 4px;
+            border-radius: 6px;
             border: 1px solid #ddd;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
         }
+
         button {
-            padding: 10px 20px;
+            width: 100%;
+            padding: 14px;
             font-size: 16px;
             border: none;
             background-color: #4CAF50;
             color: white;
+            border-radius: 6px;
             cursor: pointer;
-            border-radius: 4px;
+            transition: background-color 0.3s;
         }
+
         button:hover {
             background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+            display: none;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            button {
+                padding: 12px;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Vui lòng nhập key để vào cloud</h2>
+    <h2>Nhập Key để sử dụng cloud trong 24h</h2>
     <input type="text" id="keyInput" placeholder="Nhập key ở đây" />
-    <br>
     <button onclick="checkKey()">Xác Nhận</button>
-    <p id="error" style="color: red; display: none;">Key Sai Rồi Níi!</p>
+    <p id="errorMessage" class="error-message">Key không hợp lệ hoặc đã hết hạn!</p>
 </div>
 
 <script>
@@ -57,15 +90,16 @@ Khi nhập key thành công bạn sẽ không cần nhập lại trong 24h( nế
     const validKeyStorageKey = "validKey";
     const expirationTimeKey = "expirationTime";
 
+    // Hàm kiểm tra key
     function checkKey() {
         const enteredKey = document.getElementById("keyInput").value.trim();
-        const errorMessage = document.getElementById("error");
+        const errorMessage = document.getElementById("errorMessage");
 
         // Lấy thời gian hết hạn của key từ localStorage
         const expirationTime = localStorage.getItem(expirationTimeKey);
         const currentTime = new Date().getTime();
 
-        // Kiểm tra xem key có hợp lệ hay không và nếu hết hạn thì yêu cầu nhập lại
+        // Kiểm tra xem key có hợp lệ và chưa hết hạn
         if (enteredKey === correctKey && (!expirationTime || currentTime > expirationTime)) {
             // Lưu trạng thái key hợp lệ và thời gian hết hạn
             localStorage.setItem(validKeyStorageKey, "true");
