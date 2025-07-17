@@ -100,7 +100,7 @@ Khi nhập đúng key sẽ không cần nhập lại key trong 24h(nếu chx cs 
         <h1>Lấy Key</h1>
         <button onclick="generateKey()">Lấy Key</button>
         <div id="generatedKey">
-            <p>Link Key: <a href="https://link4m.com/4CEYEBa" target="_blank">https://link4m.com/4CEYEBa</a></p>
+            <p>Link Key: <a href="https://link4m.com/R8AmPZ" target="_blank">https://link4m.com/R8AmPZ</a></p>
         </div>
     </div>
 </div>
