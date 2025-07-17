@@ -17,7 +17,7 @@ Khi nhập đúng key bạn sẽ không cần nhập trong vòng 24h
         }
 
         .container {
-            background-color: white;
+            background-color: Dark;
             padding: 20px;
             border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -58,7 +58,7 @@ Khi nhập đúng key bạn sẽ không cần nhập trong vòng 24h
         }
 
         .error-message {
-            color: red;
+            color: green;
             display: none;
             font-size: 14px;
             margin-top: 15px;
